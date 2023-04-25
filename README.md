@@ -4,7 +4,7 @@ The Structural Query Alignment Metric (SQAM) is a Python package that provides f
 
 ## Installation
 
-To install the SQL Query Comparator package, run the following command:
+To install the SQAM package, run the following command:
 
 ```
 git clone https://github.com/ezzini/SQAM.git
@@ -70,7 +70,7 @@ The function then computes an accuracy score by comparing the subitems in the in
 
 ## Limitations
 
-The SQL Query Comparator package has several limitations:
+The SQAM package has several limitations:
 
 - The package only compares queries based on their syntax and structure, not their semantics. In other words, the package cannot determine whether two queries produce the same result set, only whether they have similar syntax and structure.
 - The regular expressions used to split the queries into parts and subitems may not work correctly for all queries. In particular, complex or nested queries may not be split correctly.
@@ -78,7 +78,7 @@ The SQL Query Comparator package has several limitations:
 
 ## Contributing
 
-Contributions to the SQL Query Comparator package are welcome! If you find a bug or have an idea for an improvement, please open an issue or submit a pull request on the GitHub repository.
+Contributions to the SQAM package are welcome! If you find a bug or have an idea for an improvement, please open an issue or submit a pull request on the GitHub repository.
 
 ## License
 
