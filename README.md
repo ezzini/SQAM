@@ -7,15 +7,40 @@ The Structural Query Alignment Metric (SQAM) is a Python package that provides f
 To install the SQL Query Comparator package, run the following command:
 
 ```
-git clone github.com/ezzini/sqam
+git clone https://github.com/ezzini/SQAM.git
 ```
 
 ## Usage
 
-To use the SQAM metric, import the `sql_query_accuracy()` function from the `sqam` module:
+### Batch evaluation
+
+To use the SQAM metric for batch evaluation, import the `sql_query_accuracy()` function from the `sqam` module:
 
 ```python
-from sqam import sql_query_accuracy
+from SQAM.sqam import sqam_batch
+```
+
+The `sqam_batch()` function takes two arguments: a list of queries to evaluate, and a list of ground truth queries for comparison. The lists should have the same length. The function returns an accuracy score between 0 and 100.
+
+Here's an example of how to use the `sqam_batch()` function:
+
+```python
+test_queries = ["SELECT name, age FROM users WHERE age >= 18 ORDER BY name ASC",
+  "SELECT col1, col2, col3, col0 FROM table1 JOIN table2 ON table1.id = table2.id WHERE col1 > 10 LIMIT 2"]
+true_queries = ["SELECT name, age FROM users WHERE age > 17 ORDER BY name ASC",
+  "SELECT col1, col4, col0, col2 FROM table2 JOIN table3 ON table1.id = table2.id WHERE col1 = 10 LIMIT 2"]
+
+accuracy = sqam_batch(test_queries, true_queries)
+
+print(f"Accuracy score: {accuracy:.2f}%")
+```
+
+### Unit evaluation
+
+For unit evaluation, import the `sql_query_accuracy()` function from the `sqam` module:
+
+```python
+from SQAM.sqam import sql_query_accuracy
 ```
 
 The `sql_query_accuracy()` function takes two arguments: a query to evaluate, and a ground truth query for comparison. The function returns an accuracy score between 0 and 100.
