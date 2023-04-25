@@ -105,4 +105,4 @@ def sqam_batch(y_list,gt_list):
     for y,gt in zip(y_list,gt_list):
         score+=sql_query_accuracy(y,gt)
     
-    return score / len(score)
+    return score / len(y_list)
