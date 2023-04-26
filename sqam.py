@@ -2,6 +2,8 @@ import re
 
 def split_sql_query(query):
     query = query.replace(';','').strip()
+    for keyword in ['select','from','where','group by','having','order by','limit']:
+      query = query.replace(' '+keyword+' ',' '+keyword.upper()+' ')
 
     # extract SELECT statement
     select_end = query.find(' FROM ')
