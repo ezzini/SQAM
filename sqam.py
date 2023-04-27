@@ -8,7 +8,6 @@ def split_sql_query(query):
     # extract SELECT statement
     select_end = query.find(' FROM ')
     select_clause = query[:select_end] if select_end != -1 else query
-    if 
     select_items = [item.strip().split()[-1].split(".")[-1].lower() for item in select_clause.split('SELECT ')[-1].split(',')]
 
     # extract FROM statement
