@@ -8,37 +8,53 @@ def split_sql_query(query):
     # extract SELECT statement
     select_end = query.find(' FROM ')
     select_clause = query[:select_end] if select_end != -1 else query
+    if 
     select_items = [item.strip().split()[-1].split(".")[-1].lower() for item in select_clause.split('SELECT ')[-1].split(',')]
 
     # extract FROM statement
     from_start = select_end + 6 if select_end != -1 else 0
     from_end = query.find(' WHERE ') if ' WHERE ' in query else len(query)
     from_clause = query[from_start:from_end].strip()
-    from_items = [item.strip().split()[0].lower() for item in from_clause.split('JOIN')]
+    if from_start>=from_end:
+        from_items=['']
+    else:
+        from_items = [item.strip().split()[0].lower() for item in from_clause.split('JOIN')]
 
     # extract WHERE conditions
     where_start = from_end + 7 if ' WHERE ' in query else len(query)
     where_end = query.find(' GROUP BY ') if ' GROUP BY ' in query else len(query)
     where_clause = query[where_start:where_end].strip()
-    where_items = [re.sub('[' +  ''.join(['\'',' ','"']) +  ']', '', item).lower().split('.')[-1] for item in re.split(r'\s+(?:AND|OR)\s+', where_clause, flags=re.IGNORECASE)] if where_clause != '' else None
+    if where_start>=where_end:
+        where_items=['']
+    else:
+        where_items = [re.sub('[' +  ''.join(['\'',' ','"']) +  ']', '', item).lower().split('.')[-1] for item in re.split(r'\s+(?:AND|OR)\s+', where_clause, flags=re.IGNORECASE)] if where_clause != '' else None
 
     # extract GROUP BY statement
     group_start = where_end + 10 if ' GROUP BY ' in query else len(query)
     group_end = query.find(' HAVING ') if ' HAVING ' in query else len(query)
     group_clause = query[group_start:group_end].strip()
-    group_items = [item.strip().lower() for item in group_clause.split(',') if item.strip()] if group_clause != '' else None
+    if group_start>=group_end:
+        group_items=['']
+    else:
+        group_items = [item.strip().lower() for item in group_clause.split(',') if item.strip()] if group_clause != '' else None
 
     # extract HAVING conditions
     having_start = group_end + 8 if ' HAVING ' in query else len(query)
     having_end = query.find(' ORDER BY ') if ' ORDER BY ' in query else len(query)
     having_clause = query[having_start:having_end].strip()
-    having_items = [item.strip().lower() for item in re.split(r'\s+(?:AND|OR)\s+', having_clause, flags=re.IGNORECASE)] if having_clause != '' else None
+    if having_start>=having_end:
+        having_items=['']
+    else:
+        having_items = [item.strip().lower() for item in re.split(r'\s+(?:AND|OR)\s+', having_clause, flags=re.IGNORECASE)] if having_clause != '' else None
 
     # extract ORDER BY statement
     order_start = having_end + 10 if ' ORDER BY ' in query else len(query)
     order_end = len(query)
     order_clause = query[order_start:order_end].strip()
-    order_items = [item.strip().lower() for item in order_clause.split(',') if item.strip()] if order_clause != '' else None
+    if order_start>=order_end:
+        order_items=['']
+    else:
+        order_items = [item.strip().lower() for item in order_clause.split(',') if item.strip()] if order_clause != '' else None
 
     # extract LIMIT number
 
