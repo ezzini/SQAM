@@ -17,7 +17,7 @@ def split_sql_query(query):
     if from_start>=from_end:
         from_items=['']
     else:
-        from_items = [item.strip().split()[0].lower() for item in from_clause.split('JOIN') if item]
+        from_items = [item.strip().split()[0].lower() for item in from_clause.split('JOIN') if item.strip()]
 
     # extract WHERE conditions
     where_start = from_end + 7 if ' WHERE ' in query else len(query)
@@ -26,7 +26,7 @@ def split_sql_query(query):
     if where_start>=where_end:
         where_items=['']
     else:
-        where_items = [re.sub('[' +  ''.join(['\'',' ','"']) +  ']', '', item).lower().split('.')[-1] for item in re.split(r'\s+(?:AND|OR)\s+', where_clause, flags=re.IGNORECASE) if item] if where_clause != '' else None
+        where_items = [re.sub('[' +  ''.join(['\'',' ','"']) +  ']', '', item).lower().split('.')[-1] for item in re.split(r'\s+(?:AND|OR)\s+', where_clause, flags=re.IGNORECASE) if item.strip()] if where_clause != '' else None
 
     # extract GROUP BY statement
     group_start = where_end + 10 if ' GROUP BY ' in query else len(query)
@@ -35,7 +35,7 @@ def split_sql_query(query):
     if group_start>=group_end:
         group_items=['']
     else:
-        group_items = [item.strip().lower() for item in group_clause.split(',') if item.strip() if item] if group_clause != '' else None
+        group_items = [item.strip().lower() for item in group_clause.split(',') if item.strip()] if group_clause != '' else None
 
     # extract HAVING conditions
     having_start = group_end + 8 if ' HAVING ' in query else len(query)
@@ -44,7 +44,7 @@ def split_sql_query(query):
     if having_start>=having_end:
         having_items=['']
     else:
-        having_items = [item.strip().lower() for item in re.split(r'\s+(?:AND|OR)\s+', having_clause, flags=re.IGNORECASE) if item] if having_clause != '' else None
+        having_items = [item.strip().lower() for item in re.split(r'\s+(?:AND|OR)\s+', having_clause, flags=re.IGNORECASE) if item.strip()] if having_clause != '' else None
 
     # extract ORDER BY statement
     order_start = having_end + 10 if ' ORDER BY ' in query else len(query)
